@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # frontend:
+  #   build: ./frontend # убедитесь, что указали правильный путь
+  #   environment:
+  #     PORT: 80
+  #   depends_on:
+  #     - api
+  #   ports:
+  #     - '80:80' # Экспонируем порт 80 из контейнера на порт 3000 на хосте
+  #   networks:
+  #     - app-network
+
+  api:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - clickhouse
+    volumes:
+      - .:/usr/src/api
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgresql
+      POSTGRES_PASSWORD: postgresql
+      POSTGRES_DB: incidents
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  clickhouse:
+    image: yandex/clickhouse-server:latest
+    environment:
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+      CLICKHOUSE_DB: incidents
+      CLICKHOUSE_HOST: http://localhost:8123
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+    driver: local
+  clickhouse_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

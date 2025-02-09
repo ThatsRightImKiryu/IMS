@@ -1,0 +1,15 @@
+replicaCount: 1
+image:
+  repository: ubuntu
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 3000
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "500m"
+  limits:
+    memory: "256Mi"
+    cpu: "1000m"
