@@ -9,7 +9,6 @@ COPY package*.json ./
 
 # Устанавливаем зависимости
 RUN npm install -g npm@11.1.0
-
 # Копируем исходники
 COPY . .
 

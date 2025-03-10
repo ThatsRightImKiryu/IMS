@@ -1,13 +1,14 @@
+// incidentRoutes.js
+
 const express = require('express');
-const incidentController = require('../controllers/incidentController');
-
 const router = express.Router();
+const incidentController = require('../controllers/incidentController'); // Убедитесь, что путь к контроллеру корректен
 
-// CRUD маршруты для инцидентов
-router.post('/incidents', incidentController.createIncident);
-router.get('/incidents', incidentController.getAllIncidents);
-router.get('/incidents/:id', incidentController.getIncidentById);
-router.put('/incidents/:id', incidentController.updateIncident);
-router.delete('/incidents/:id', incidentController.deleteIncident);
+// Убедитесь, что все методы контроллера существуют и правильно экспортируются
+router.get('/', incidentController.getAllIncidents);
+router.post('/', incidentController.createIncident);
+router.get('/:incidentId', incidentController.getIncidentById);
+router.put('/:incidentId', incidentController.updateIncident);
+router.delete('/:incidentId', incidentController.deleteIncident);
 
 module.exports = router;
