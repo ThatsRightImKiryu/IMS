@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   frontend:
-    build: ./frontend # убедитесь, что указали правильный путь
+    build:
+      context: ./frontend
+      args:
+        BACKEND_HOST: 'http://localhost:8080/api'
     environment:
       PORT: 80
     depends_on:
@@ -15,7 +18,7 @@ services:
   api:
     build: ./backend
     ports:
-      - "3000:3000"
+      - "8080:8080"
     depends_on:
       - postgres
     volumes:

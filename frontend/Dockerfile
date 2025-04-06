@@ -1,6 +1,10 @@
 # Используем официальный образ Node в качестве базового для сборки
 FROM node:20 as build
 
+ARG BACKEND_HOST
+
+ENV REACT_APP_BACKEND_HOST=${BACKEND_HOST}
+
 # Устанавливаем рабочую директорию для сборки
 WORKDIR /app
 
@@ -22,6 +26,8 @@ FROM nginx
 
 # Копируем собранное приложение из предыдущего этапа
 COPY --from=build /app/build /usr/share/nginx/html
+
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Экспонируем порт 80
 EXPOSE 80

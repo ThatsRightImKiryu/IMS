@@ -6,7 +6,7 @@ const ServiceList = () => {
 
   useEffect(() => {
     // Здесь должен быть запрос к API для получения данных о сервисах
-    fetch('http://localhost:3000/api/services')
+    fetch(`${process.env.REACT_APP_BACKEND_HOST}/services`)
       .then(response => response.json())
       .then(data => setServices(data))
       .catch(error => console.error('Error fetching services', error));

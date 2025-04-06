@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Paper, List, ListItem, ListItemText, Divider, Box, Chip } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const IncidentList = () => {
   const [incidents, setIncidents] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/incidents')
+    fetch(`${process.env.REACT_APP_BACKEND_HOST}/incidents`)
       .then(response => response.json())
       .then(data => setIncidents(data))
       .catch(error => console.error('Error fetching incidents', error));
@@ -28,7 +29,9 @@ const IncidentList = () => {
                 <ListItem>
                   <Box sx={{ width: '100%' }}>
                     <Typography variant="h6" color="primary" sx={{ mb: 1 }}>
-                      {incident.title}
+                      <Link to={`/incidents/${incident.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        {incident.title}
+                      </Link>
                     </Typography>
                     <ListItemText
                       secondary={
@@ -37,12 +40,14 @@ const IncidentList = () => {
                             {incident.description}
                           </Typography>
                           <Typography variant="body2" color="textSecondary" mt={1}>
+                          <Link to={`/services/${incident.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             Service: <strong>{incident.service ? incident.service.name : 'N/A'}</strong>
+                          </Link>
                           </Typography>
                           <Box mt={1}>
                             Users: 
-                            {incident.service.responsibles && incident.service.responsibles.length > 0 ? (
-                              incident.service.responsibles.map(user => (
+                            {incident.service.team && incident.service.team.length > 0 ? (
+                              incident.service.team.map(user => (
                                 <Chip key={user.id} label={user.name} sx={{ ml: 1 }} />
                               ))
                             ) : (

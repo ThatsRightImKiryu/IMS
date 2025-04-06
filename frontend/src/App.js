@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link as RouterLink } from 'reac
 import MenuIcon from '@mui/icons-material/Menu';
 import IncidentList from './components/IncidentList';
 import ServiceForm from './components/ServiceForm';
-import ServiceList from './components/ServiceList';  // Импортируем новый компонент
+import ServiceList from './components/ServiceList';
+import Incident from './components/Incident';
 import {
   AppBar,
   Toolbar,
@@ -15,6 +16,7 @@ import {
   CssBaseline,
   ThemeProvider,
   createTheme,
+  Link
 } from '@mui/material';
 
 const theme = createTheme({
@@ -69,7 +71,9 @@ const App = () => {
         <AppBar position="sticky" elevation={0}>
           <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Incident Management
+              <Link component={RouterLink} to="/" color="inherit" underline="none">
+                Incident Management
+              </Link>
             </Typography>
             <IconButton
               edge="end"
@@ -82,9 +86,7 @@ const App = () => {
             <Menu
               anchorEl={menuAnchor}
               open={Boolean(menuAnchor)}
-
-
-onClose={closeMenu}
+              onClose={closeMenu}
             >
               <MenuItem onClick={closeMenu} component={RouterLink} to="/">
                 Incident List
@@ -103,6 +105,7 @@ onClose={closeMenu}
             <Route path="/" element={<IncidentList />} />
             <Route path="/addService" element={<ServiceForm />} />
             <Route path="/services" element={<ServiceList />} />
+            <Route path="/incidents/:id" element={<Incident />} />
           </Routes>
         </Container>
       </Router>

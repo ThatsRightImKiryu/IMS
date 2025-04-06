@@ -21,7 +21,7 @@ const ServiceForm = () => {
     const newService = { name, description };
 
     try {
-      const response = await fetch('http://localhost:3000/api/services', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/services`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
