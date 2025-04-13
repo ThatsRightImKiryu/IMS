@@ -32,6 +32,11 @@ func main() {
 	// router.POST("/api/services", controllers.CreateIncident)
 	router.GET("/api/services/:id", controllers.GetServiceByID)
 	
+	// Определение маршрутов для проверок (checks)
+	router.GET("/api/checks", controllers.GetAllChecks)
+	router.GET("/api/checks/:id", controllers.GetCheckByID)
+	router.POST("/api/checks", controllers.CreateCheck)
+
 	// Запуск приложения
 	router.Run(":8080")
 }
