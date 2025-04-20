@@ -1,9 +1,7 @@
 # Используем официальный образ Node в качестве базового для сборки
-FROM node:20 as build
+FROM --platform=linux/amd64 node:20 as build
 
-ARG BACKEND_HOST
-
-ENV REACT_APP_BACKEND_HOST=${BACKEND_HOST}
+ENV REACT_APP_BACKEND_HOST=http://ims-api.com/api
 
 # Устанавливаем рабочую директорию для сборки
 WORKDIR /app
@@ -22,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Используем минималистичный образ nginx для сервировки приложения
-FROM nginx
+FROM --platform=linux/amd64 nginx
 
 # Копируем собранное приложение из предыдущего этапа
 COPY --from=build /app/build /usr/share/nginx/html

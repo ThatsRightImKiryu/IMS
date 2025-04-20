@@ -1,6 +1,9 @@
 # Используем официальный базовый образ Golang
 FROM golang:1.24.1 as build
 
+ARG TARGETOS=linux
+ARG TARGETARCH=amd64
+
 # Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
 # Копируем файлы go.mod и go.sum
@@ -13,7 +16,7 @@ RUN go mod download
 COPY . .
 
 # Компилируем приложение
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o main .
 
 # Пробрасываем порт, на котором приложение запускается
 EXPOSE 8080 

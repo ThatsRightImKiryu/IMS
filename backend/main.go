@@ -15,7 +15,7 @@ func main() {
 	router := gin.Default()
 
 	config := cors.Config{
-		AllowOrigins:     []string{"http://localhost"},
+		AllowOrigins:     []string{"http://localhost", "http://ims.com", "https://ims-api.com"},
 		AllowMethods:     []string{"GET", "POST"},
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -35,7 +35,7 @@ func main() {
 	// Определение маршрутов для проверок (checks)
 	router.GET("/api/checks", controllers.GetAllChecks)
 	router.GET("/api/checks/:id", controllers.GetCheckByID)
-	router.POST("/api/checks", controllers.CreateCheck)
+	router.POST("/api/checks", controllers.HandleGrafanaWebhook)
 
 	// Запуск приложения
 	router.Run(":8080")

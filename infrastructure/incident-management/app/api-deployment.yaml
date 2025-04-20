@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ../../docker-compose.yaml -o app/
+    kompose.version: 1.35.0 (HEAD)
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ../../docker-compose.yaml -o app/
+        kompose.version: 1.35.0 (HEAD)
+      labels:
+        io.kompose.service: api
+    spec:
+      containers:
+        - image: cr.yandex/crp1eos7geaq6pnfkbv2/api:latest
+          name: api
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /usr/src/api
+              name: api-cm0
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            name: api-cm0
+          name: api-cm0
